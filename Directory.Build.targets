@@ -1,0 +1,15 @@
+<Project>
+  <Target Name="DisableLegacyDebugLogsForImageDiagnostics"
+          BeforeTargets="CoreCompile"
+          Condition="'$(MSBuildProjectName)' == 'PaperTodo' and '$(Configuration)' == 'Debug'">
+    <ItemGroup>
+      <_ImageDiagnosticDefine Include="$(DefineConstants)" />
+      <_ImageDiagnosticDefine Remove="DEBUG" />
+    </ItemGroup>
+    <PropertyGroup>
+      <!-- This branch is dedicated to image-render diagnostics. Remove DEBUG so legacy
+           edge-preview and markdown trace logging is compiled out and cannot pollute timing. -->
+      <DefineConstants>@(_ImageDiagnosticDefine, ';')</DefineConstants>
+    </PropertyGroup>
+  </Target>
+</Project>
